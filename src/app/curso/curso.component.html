@@ -2,7 +2,7 @@
   <span>Cursos para turmas de formação da Castgroup</span>
 </mat-toolbar>
 
-<mat-tab-group [selectedIndex]="selectedIndex">
+<mat-tab-group>
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon>list</mat-icon>
@@ -65,63 +65,61 @@
       <mat-icon>bookmark_add</mat-icon>
       Novo
     </ng-template>
-    <mat-card class="half-width">
-      <form [formGroup]="formulario" (ngSubmit)="submit()">
-        <mat-form-field appearance="fill">
-          <mat-label>Descrição</mat-label>
-          <input formControlName="descricao" matInput>
-        </mat-form-field>
-        <div *ngIf="formulario.controls.descricao.errors">
-          <div *ngIf="formulario.controls.descricao.errors.required">
-            Campo descrição é obrigatório
-          </div>
+    <form [formGroup]="formulario" (ngSubmit)="submit()">
+      <mat-form-field appearance="fill">
+        <mat-label>Descrição</mat-label>
+        <input formControlName="descricao" matInput>
+      </mat-form-field>
+      <div *ngIf="formulario.controls.descricao.errors && !formulario.controls.descricao.pristine">
+        <div *ngIf="formulario.controls.descricao.errors.required">
+          Campo descrição é obrigatório
         </div>
+      </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Data Início</mat-label>
-          <input formControlName="dataInicio" matInput [matDatepicker]="picker1">
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
-        </mat-form-field>
-        <div *ngIf="formulario.controls.dataInicio.errors">
-          <div *ngIf="formulario.controls.dataInicio.errors.required">
-            Campo data início é obrigatório
-          </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Data Início</mat-label>
+        <input formControlName="dataInicio" matInput [matDatepicker]="picker1">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <div *ngIf="formulario.controls.dataInicio.errors && !formulario.controls.dataInicio.pristine">
+        <div *ngIf="formulario.controls.dataInicio.errors.required">
+          Campo data início é obrigatório
         </div>
+      </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Data Término</mat-label>
-          <input formControlName="dataTermino" matInput [matDatepicker]="picker2">
-          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-          <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
-        <div *ngIf="formulario.controls.dataTermino.errors">
-          <div *ngIf="formulario.controls.dataTermino.errors.required">
-            Campo data término é obrigatório
-          </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Data Término</mat-label>
+        <input formControlName="dataTermino" matInput [matDatepicker]="picker2">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+      <div *ngIf="formulario.controls.dataTermino.errors && !formulario.controls.dataTermino.pristine">
+        <div *ngIf="formulario.controls.dataTermino.errors.required">
+          Campo data término é obrigatório
         </div>
+      </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Quantidade de Alunos</mat-label>
-          <input formControlName="quantidadeAlunosPorTurma" matInput type="number">
-        </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Quantidade de Alunos</mat-label>
+        <input formControlName="quantidadeAlunosPorTurma" matInput type="number">
+      </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Categoria</mat-label>
-          <mat-select formControlName="categoria">
-            <mat-option *ngFor="let categoria of categorias" [value]="categoria.codigo">
-              {{categoria.descricao}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-        <div *ngIf="formulario.controls.categoria.errors">
-          <div *ngIf="formulario.controls.categoria.errors.required">
-            Campo categoria é obrigatório
-          </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Categoria</mat-label>
+        <mat-select formControlName="categoria">
+          <mat-option *ngFor="let categoria of categorias" [value]="categoria.codigo">
+            {{categoria.descricao}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div *ngIf="formulario.controls.categoria.errors && !formulario.controls.categoria.pristine">
+        <div *ngIf="formulario.controls.categoria.errors.required">
+          Campo categoria é obrigatório
         </div>
+      </div>
 
-        <button [disabled]="!this.formulario.valid" mat-raised-button color="primary">Salvar</button>
-      </form>
-    </mat-card>
+      <button mat-raised-button color="primary">Salvar</button>
+    </form>
   </mat-tab>
 </mat-tab-group>

@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CursoService } from '../curso.service';
 import { Categoria } from './categoria';
 import { Curso } from './curso';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-curso',
@@ -19,10 +18,9 @@ export class CursoComponent implements OnInit {
   cursos: Curso[] = [];
   colunas = ["id", "descricao", "dataInicio", "dataTermino", "quantidadeAlunosPorTurma", "categoria", "excluir"];
   descricaoCurso: string = "";
-  selectedIndex: number = 0;
 
   constructor(
-    private service: CursoService, public datepipe: DatePipe, private fb: FormBuilder
+    private service: CursoService, public datepipe: DatePipe, private fb: FormBuilder, private snackBar: MatSnackBar
   ) {
   }
 
@@ -48,12 +46,20 @@ export class CursoComponent implements OnInit {
   listarCategoria() {
     this.service.listarCategoria().subscribe(response => {
       this.categorias = response;
+    }, errorResponse => {
+      this.snackBar.open(errorResponse.error.errors, "Undo!", {
+        duration: 2000
+      });
     });
   }
 
   listarCursos() {
     this.service.listarCurso().subscribe(response => {
       this.cursos = response;
+    }, errorResponse => {
+      this.snackBar.open(errorResponse.error.errors, "Undo!", {
+        duration: 2000
+      });
     });
   }
 
@@ -69,19 +75,29 @@ export class CursoComponent implements OnInit {
     if (formValues.id == null) {
       this.service.incluir(curso).subscribe(response => {
         this.cursos = [...this.cursos, response];
-      })
+      }, errorResponse => {
+        this.snackBar.open(errorResponse.error.errors, "Undo!", {
+          duration: 2000
+        });
+      });
     } else {
       this.service.alterar(formValues.id, curso).subscribe(response => {
         const cursoIndex = this.cursos.findIndex(
           (curso) => curso.id === response.id
         );
-
         this.cursos[cursoIndex] = response;
-      })
+      }, errorResponse => {
+        this.snackBar.open(errorResponse.error.errors, "Undo!", {
+          duration: 2000
+        });
+      });
     }
 
+    this.snackBar.open("Curso salvo com sucesso", "Sucesso!", {
+      duration: 2000
+    });
+
     this.limparCampos();
-    this.selectedIndex = 0;
   }
 
 
@@ -90,12 +106,19 @@ export class CursoComponent implements OnInit {
 
     this.service.pesquisarCursoPorDescricao(this.descricaoCurso).subscribe(response => {
       this.cursos = response;
-    })
+    }, errorResponse => {
+      this.snackBar.open(errorResponse.error.errors, "Undo!", {
+        duration: 2000
+      });
+    });
   }
 
   deletar(curso: Curso) {
     this.service.deletar(curso.id).subscribe();
     this.cursos = this.cursos.filter(cursoFilter => cursoFilter.id !== curso.id);
+    this.snackBar.open("Curso deletado com sucesso", "Undo!", {
+      duration: 2000
+    });
   }
 
   selecionarCurso(curso: Curso) {
