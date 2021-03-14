@@ -1,0 +1,127 @@
+<mat-toolbar>
+  <span>Cursos para turmas de formação da Castgroup</span>
+</mat-toolbar>
+
+<mat-tab-group [selectedIndex]="selectedIndex">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>list</mat-icon>
+      Todos
+    </ng-template>
+
+    <mat-form-field appearance="fill" class="half-width">
+      <mat-label>Pesquisar</mat-label>
+      <input [value]="descricaoCurso" matInput (change)="pesquisarCursoPorDescricao($event)">
+    </mat-form-field>
+
+    <table mat-table [dataSource]="cursos" class="full-width">
+
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let curso"> {{curso.id}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="descricao">
+        <th mat-header-cell *matHeaderCellDef> Descrição </th>
+        <td mat-cell *matCellDef="let curso"> {{curso.descricao}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="dataInicio">
+        <th mat-header-cell *matHeaderCellDef> Data Início </th>
+        <td mat-cell *matCellDef="let curso"> {{curso.dataInicio | date:'dd/MM/yyyy HH:mm:ss'}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="dataTermino">
+        <th mat-header-cell *matHeaderCellDef> Data Término </th>
+        <td mat-cell *matCellDef="let curso"> {{curso.dataTermino | date:'dd/MM/yyyy HH:mm:ss'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="quantidadeAlunosPorTurma">
+        <th mat-header-cell *matHeaderCellDef> Quantidade Alunos por Turma </th>
+        <td mat-cell *matCellDef="let curso"> {{curso.quantidadeAlunosPorTurma}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="categoria">
+        <th mat-header-cell *matHeaderCellDef> Categoria </th>
+        <td mat-cell *matCellDef="let curso"> {{curso.categoria.descricao}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="excluir">
+        <th mat-header-cell *matHeaderCellDef> </th>
+        <td mat-cell *matCellDef="let curso">
+          <a href="#" (click)="deletar(curso)">
+            <mat-icon>{{'delete'}}</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="colunas"></tr>
+      <tr mat-row *matRowDef="let row; columns: colunas;" (click)="selecionarCurso(row)"></tr>
+    </table>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon>bookmark_add</mat-icon>
+      Novo
+    </ng-template>
+    <mat-card class="half-width">
+      <form [formGroup]="formulario" (ngSubmit)="submit()">
+        <mat-form-field appearance="fill">
+          <mat-label>Descrição</mat-label>
+          <input formControlName="descricao" matInput>
+        </mat-form-field>
+        <div *ngIf="formulario.controls.descricao.errors">
+          <div *ngIf="formulario.controls.descricao.errors.required">
+            Campo descrição é obrigatório
+          </div>
+        </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Data Início</mat-label>
+          <input formControlName="dataInicio" matInput [matDatepicker]="picker1">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <div *ngIf="formulario.controls.dataInicio.errors">
+          <div *ngIf="formulario.controls.dataInicio.errors.required">
+            Campo data início é obrigatório
+          </div>
+        </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Data Término</mat-label>
+          <input formControlName="dataTermino" matInput [matDatepicker]="picker2">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <div *ngIf="formulario.controls.dataTermino.errors">
+          <div *ngIf="formulario.controls.dataTermino.errors.required">
+            Campo data término é obrigatório
+          </div>
+        </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Quantidade de Alunos</mat-label>
+          <input formControlName="quantidadeAlunosPorTurma" matInput type="number">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="categoria">
+            <mat-option *ngFor="let categoria of categorias" [value]="categoria.codigo">
+              {{categoria.descricao}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="formulario.controls.categoria.errors">
+          <div *ngIf="formulario.controls.categoria.errors.required">
+            Campo categoria é obrigatório
+          </div>
+        </div>
+
+        <button [disabled]="!this.formulario.valid" mat-raised-button color="primary">Salvar</button>
+      </form>
+    </mat-card>
+  </mat-tab>
+</mat-tab-group>
