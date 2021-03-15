@@ -1,27 +1,13 @@
-# AvaliacaoApp
+# avaliacao-app
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+-.<br>
+-As inserções dos dados da tabela Categoria foram realizados atráves do ícone "Add new row" do DBeaver.<br>
+-Foram criadas as estruturas das camadas conforme o documento da avaliação.<br>
+-Foram criadas as models Curso e Categoria e depois mapeadas com o javax.persistence.<br>
+-Foi utilizado o lombok para produtividade e redução de código.<br>
+-Foram criadas as classes controllers CursoController e CategoriaController para expor os endpoints REST para consumo do frontend e depois foram mapeadas com o org.springframework. Foi utilizado CORS para o navegador obter os dados da API.<br>
+-Foram criadas as classes services CursoService e CategoriaService para validar as regras de negócio e depois foram mapeadas com o org.springframework.<br>
+-Foram criadas as classes repositories CursoRepository e CategoriaRepository para comunicação com o banco dados. Foi utilizado o @Query para verificar cursos dentro do mesmo periodo.<br>
+-Foram criadas as DTOs(Data Transfer Object) para tranferência de dados entre as camadas.<br>
+-Foi utilizado o Modelmapper para copiar os dados das models para as DTOs diminuindo a quantidade de código.<br>
+-Foi utilizado o conceito de Internacionalização para padronizar as mensagens de validações.
